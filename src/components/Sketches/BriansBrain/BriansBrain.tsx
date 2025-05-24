@@ -1,7 +1,7 @@
 import Sketch from "react-p5"
 import p5Types from "p5"
 
-function GameOfLife() {
+function BriansBrain() {
 	let grid: number[][] = []
 	let next: number[][] = []
 	let squareSize: number
@@ -83,11 +83,18 @@ function GameOfLife() {
 		}
 	}
 
+	const windowResized = (p5: p5Types) => {
+		p5.resizeCanvas(p5.windowWidth, p5.windowHeight)
+		gridLength = p5.windowWidth / squareSize
+		gridHeight = p5.windowHeight / squareSize
+		createGrid(p5)
+	}
+
 	return (
 		<>
-			<Sketch setup={setup} draw={draw} />
+			<Sketch setup={setup} draw={draw} windowResized={windowResized} />
 		</>
 	)
 }
 
-export default GameOfLife
+export default BriansBrain

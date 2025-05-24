@@ -82,9 +82,16 @@ function GameOfLife() {
 		}
 	}
 
+	const windowResized = (p5: p5Types) => {
+		p5.resizeCanvas(p5.windowWidth, p5.windowHeight)
+		gridLength = p5.windowWidth / squareSize
+		gridHeight = p5.windowHeight / squareSize
+		createGrid(p5)
+	}
+
 	return (
 		<>
-			<Sketch setup={setup} draw={draw} />
+			<Sketch setup={setup} draw={draw} windowResized={windowResized} />
 		</>
 	)
 }
