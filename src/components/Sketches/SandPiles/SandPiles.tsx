@@ -1,14 +1,11 @@
 import Sketch from "react-p5"
 import p5Types from "p5"
 
-function LangtonsAnt() {
+function SandPiles() {
 	let grid: number[][] = []
 	let squareSize: number
 	let gridLength: number
 	let gridHeight: number
-	let x: number
-	let y: number
-	let direction: number
 	let canvas: any
 	let speedSlider: any
 
@@ -22,12 +19,9 @@ function LangtonsAnt() {
 		p5.frameRate(24)
 		speedSlider = p5.createSlider(1, 500, 1)
 		speedSlider.position(5, 70)
-		squareSize = 10
-		gridLength = p5.windowWidth / squareSize
-		gridHeight = p5.windowHeight / squareSize
-		x = 100
-		y = 100
-		direction = 1
+		gridLength = 640
+		gridHeight = 360
+		squareSize = p5.windowWidth / gridLength
 		createGrid()
 	}
 
@@ -38,71 +32,38 @@ function LangtonsAnt() {
 				grid[i][j] = 0
 			}
 		}
+		grid[gridLength / 2][gridHeight / 2] = 28000000
 	}
 
 	const draw = (p5: p5Types) => {
 		p5.background(51)
-		p5.stroke(255)
 		p5.noStroke()
 		for (let i: number = 0; i < gridLength; i++) {
 			for (let j: number = 0; j < gridHeight; j++) {
-				if (i === x && j === y) {
-					p5.fill(255, 0, 0)
+				if (grid[i][j] > 2) {
+					p5.fill(150, 0, 150)
 					p5.rect(i * squareSize, j * squareSize, squareSize, squareSize)
-				} else if (grid[i][j] === 0) {
-					p5.fill(0)
+				} else if (grid[i][j] !== 0) {
+					p5.fill(255, 0, 0)
 					p5.rect(i * squareSize, j * squareSize, squareSize, squareSize)
 				}
 			}
 		}
 		for (let i: number = 0; i < speedSlider.value(); i++) {
-			moveAnt(p5)
+			calculateGrid()
 		}
 	}
 
-	function moveAnt(p5: p5Types) {
-		if (x < 1) x += 10
-		if (x > gridLength - 1) x -= 10
-		if (y < 1) y += 10
-		if (y > gridHeight - 1) y -= 10
-
-		let c: number = p5.int(p5.random(1, 5))
-
-		if (grid[x][y] === 0) {
-			if (direction === 1) {
-				grid[x][y] = c
-				direction++
-				x++
-			} else if (direction === 2) {
-				grid[x][y] = c
-				direction++
-				y--
-			} else if (direction === 3) {
-				grid[x][y] = c
-				direction++
-				x--
-			} else if (direction === 4) {
-				grid[x][y] = c
-				direction = 1
-				y++
-			}
-		} else if (grid[x][y] >= 1) {
-			if (direction === 1) {
-				grid[x][y] = 0
-				direction = 4
-				x--
-			} else if (direction === 2) {
-				grid[x][y] = 0
-				direction--
-				y++
-			} else if (direction === 3) {
-				grid[x][y] = 0
-				direction--
-				x++
-			} else if (direction === 4) {
-				grid[x][y] = 0
-				direction--
-				y--
+	function calculateGrid() {
+		for (let i: number = 1; i < gridLength - 1; i++) {
+			for (let j: number = 1; j < gridHeight - 1; j++) {
+				if (grid[i][j] >= 4) {
+					grid[i][j] -= 4
+					grid[i + 1][j] += 1
+					grid[i - 1][j] += 1
+					grid[i][j + 1] += 1
+					grid[i][j - 1] += 1
+				}
 			}
 		}
 	}
@@ -118,4 +79,4 @@ function LangtonsAnt() {
 	)
 }
 
-export default LangtonsAnt
+export default SandPiles

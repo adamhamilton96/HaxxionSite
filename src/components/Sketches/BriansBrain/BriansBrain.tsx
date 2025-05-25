@@ -16,7 +16,7 @@ function BriansBrain() {
 		canvas.mousePressed(() => {
 			createGrid(p5)
 		})
-		//p5.frameRate(24)
+		p5.frameRate(24)
 		squareSize = 10
 		gridLength = p5.windowWidth / squareSize
 		gridHeight = p5.windowHeight / squareSize
@@ -84,10 +84,7 @@ function BriansBrain() {
 	}
 
 	const windowResized = (p5: p5Types) => {
-		p5.resizeCanvas(p5.windowWidth, p5.windowHeight)
-		gridLength = p5.windowWidth / squareSize
-		gridHeight = p5.windowHeight / squareSize
-		createGrid(p5)
+		p5.setup()
 	}
 
 	return (

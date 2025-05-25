@@ -1,6 +1,5 @@
 import Sketch from "react-p5"
 import p5Types from "p5"
-import { WindPowerSharp } from "@mui/icons-material"
 
 function WireWorld() {
 	let grid: number[][] = []
@@ -15,7 +14,6 @@ function WireWorld() {
 		canvas = p5
 			.createCanvas(p5.windowWidth, p5.windowHeight)
 			.parent(canvasParentRef)
-		choice = 1
 		canvas.mousePressed(() => {
 			for (let i: number = 0; i < gridLength; i++) {
 				for (let j: number = 0; j < gridHeight; j++) {
@@ -32,6 +30,8 @@ function WireWorld() {
 				}
 			}
 		})
+		choice = 1
+		p5.frameRate(24)
 		squareSize = 10
 		gridLength = p5.windowWidth / squareSize
 		gridHeight = p5.windowHeight / squareSize
@@ -123,7 +123,7 @@ function WireWorld() {
 	}
 
 	const windowResized = (p5: p5Types) => {
-		p5.resizeCanvas(p5.windowWidth, p5.windowHeight)
+		p5.setup()
 	}
 
 	return (
