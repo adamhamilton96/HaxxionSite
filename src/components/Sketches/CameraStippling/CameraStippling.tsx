@@ -18,6 +18,20 @@ function CameraStippling() {
 
 	const setup = (p5: p5Types, canvasParentRef: Element) => {
 		p5.frameRate(24)
+				let btnUpdate = p5.createButton("Update")
+		btnUpdate.mousePressed(() => {
+			init(p5)
+		})
+		btnUpdate.position(0, 110)
+		let btnToggleColour = p5.createButton("Toggle Colour")
+		btnToggleColour.mousePressed(toggleColour)
+		btnToggleColour.position(110, 110)
+		pointInput = p5.createInput("2000", "number")
+		pointInput.position(0, 85)
+		pointInput.size(110, 20)
+		sizeInput = p5.createInput("8", "number")
+		sizeInput.position(120, 85)
+		sizeInput.size(110, 20)
 		let details = navigator.userAgent
 		let regexp = /android|iphone/i
 		let isMobileDevice = regexp.test(details)
@@ -35,18 +49,6 @@ function CameraStippling() {
 			videoHeight = 360
 		}
 		debug = false
-		let btnUpdate = p5.createButton("Update")
-		btnUpdate.mousePressed(() => {
-			init(p5)
-		})
-		btnUpdate.position(375, 70)
-		let btnToggleColour = p5.createButton("Toggle Colour")
-		btnToggleColour.mousePressed(toggleColour)
-		btnToggleColour.position(470, 70)
-		pointInput = p5.createInput("2000", "number")
-		pointInput.position(0, 70)
-		sizeInput = p5.createInput("8", "number")
-		sizeInput.position(185, 70)
 		video = p5.createCapture("VIDEO")
 		video.volume(0)
 		video.size(videoWidth, videoHeight)
@@ -59,6 +61,7 @@ function CameraStippling() {
 	}
 
 	function init(p5: p5Types) {
+		canvas.resize(p5.windowWidth, p5.windowHeight)
 		points = []
 		for (let i = 0; i < Number(pointInput.value()); i++) {
 			let x = p5.random(videoWidth)
@@ -167,7 +170,7 @@ function CameraStippling() {
 	}
 
 	const windowResized = (p5: p5Types) => {
-		p5.setup()
+		init(p5)
 	}
 
 	return (
